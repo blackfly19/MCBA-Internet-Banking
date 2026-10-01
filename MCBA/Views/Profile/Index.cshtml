@@ -1,0 +1,64 @@
+@model MCBA.ViewModels.ProfileViewModel
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>My Profile</h2>
+            <hr />
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Customer Information</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Customer ID:</th>
+                            <td>@Model.CustomerID</td>
+                        </tr>
+                        <tr>
+                            <th>Name:</th>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <th>TFN:</th>
+                            <td>@(string.IsNullOrEmpty(Model.TFN) ? "N/A" : Model.TFN)</td>
+                        </tr>
+                        <tr>
+                            <th>Address:</th>
+                            <td>@(string.IsNullOrEmpty(Model.Address) ? "N/A" : Model.Address)</td>
+                        </tr>
+                        <tr>
+                            <th>City:</th>
+                            <td>@(string.IsNullOrEmpty(Model.City) ? "N/A" : Model.City)</td>
+                        </tr>
+                        <tr>
+                            <th>State:</th>
+                            <td>@(string.IsNullOrEmpty(Model.State) ? "N/A" : Model.State)</td>
+                        </tr>
+                        <tr>
+                            <th>Postcode:</th>
+                            <td>@(string.IsNullOrEmpty(Model.PostCode) ? "N/A" : Model.PostCode)</td>
+                        </tr>
+                        <tr>
+                            <th>Mobile:</th>
+                            <td>@(string.IsNullOrEmpty(Model.Mobile) ? "N/A" : Model.Mobile)</td>
+                        </tr>
+                    </table>
+
+                    <a asp-action="Edit" class="btn btn-primary">Edit Profile</a>
+                    <a asp-action="ChangePassword" class="btn btn-warning">Change Password</a>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

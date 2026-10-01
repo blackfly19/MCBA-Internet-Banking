@@ -1,0 +1,49 @@
+@model MCBA.ViewModels.TransferViewModel
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Confirm Transfer</h2>
+            <hr />
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Transaction Details</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>From Account:</th>
+                            <td>@Model.SourceAccountType - @Model.SourceAccountNumber</td>
+                        </tr>
+                        <tr>
+                            <th>To Account:</th>
+                            <td>@Model.DestinationAccountType - @Model.DestinationAccountNumber</td>
+                        </tr>
+                        <tr>
+                            <th>Transfer Amount:</th>
+                            <td>@Model.Amount.ToString("C")</td>
+                        </tr>
+                        <tr>
+                            <th>Service Charge:</th>
+                            <td>@Model.ServiceCharge.ToString("C")</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Total Deducted:</strong></th>
+                            <td><strong>@Model.TotalAmount.ToString("C")</strong></td>
+                        </tr>
+                        <tr>
+                            <th>Comment:</th>
+                            <td>@(string.IsNullOrEmpty(Model.Comment) ? "N/A" : Model.Comment)</td>
+                        </tr>
+                    </table>
+
+                    <form asp-action="Complete" method="post">
+                        <button type="submit" class="btn btn-success">Confirm Transfer</button>
+                        <a asp-action="Cancel" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

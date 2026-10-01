@@ -1,0 +1,83 @@
+@model List<MCBA.Models.Transaction>
+@{
+    var account = (Account)ViewBag.Account;
+    var availableBalance = (decimal)ViewBag.AvailableBalance;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TransactionHistory_Account_@account.AccountNumber</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .info { margin: 20px 0; padding: 10px; background: #f5f5f5; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #333; color: white; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        @@media print {
+            button { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Transaction History - Account @account.AccountNumber</h1>
+    
+    <div class="info">
+        <p><strong>Account Type:</strong> @(account.AccountType == 'C' ? "Checking" : "Savings")</p>
+        <p><strong>Current Balance:</strong> @account.Balance.ToString("C")</p>
+        <p><strong>Available Balance:</strong> @availableBalance.ToString("C")</p>
+        <p><strong>Generated:</strong> @DateTime.Now.ToString("dd/MM/yyyy hh:mm tt")</p>
+    </div>
+
+    <div style="text-align: center; margin: 20px;">
+        <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    @if (Model.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Account</th>
+                    <th>Destination</th>
+                    <th>Amount</th>
+                    <th>Date & Time</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr>
+                        <td>@t.TransactionID</td>
+                        <td>@(t.TransactionType switch {
+                            'D' => "Deposit",
+                            'W' => "Withdraw",
+                            'T' => "Transfer",
+                            'S' => "Service Charge",
+                            'B' => "BillPay",
+                            _ => t.TransactionType.ToString()
+                        })</td>
+                        <td>@t.AccountNumber</td>
+                        <td>@(t.DestinationAccountNumber?.ToString() ?? "N/A")</td>
+                        <td>@t.Amount.ToString("C")</td>
+                        <td>@t.TransactionTimeUtc.ToLocalTime().ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@(string.IsNullOrEmpty(t.Comment) ? "N/A" : t.Comment)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p><strong>Total Transactions:</strong> @Model.Count</p>
+    }
+    else
+    {
+        <p>No transactions found.</p>
+    }
+</body>
+</html>

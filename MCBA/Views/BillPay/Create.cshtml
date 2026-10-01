@@ -1,0 +1,83 @@
+@model MCBA.ViewModels.BillPayViewModel
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Schedule Bill Payment</h2>
+            <hr />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label asp-for="AccountNumber" class="form-label">From Account</label>
+                    <select asp-for="AccountNumber" class="form-select">
+                        <option value="">-- Select account --</option>
+                        @if (Model.Accounts != null)
+                        {
+                            @foreach (var account in Model.Accounts)
+                            {
+                                <option value="@account.AccountNumber">
+                                    @(account.AccountType == 'C' ? "Checking" : "Savings") - @account.AccountNumber (Balance: @account.Balance.ToString("C"))
+                                </option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PayeeID" class="form-label">Payee</label>
+                    <select asp-for="PayeeID" class="form-select">
+                        <option value="">-- Select payee --</option>
+                        @if (Model.Payees != null)
+                        {
+                            @foreach (var payee in Model.Payees)
+                            {
+                                <option value="@payee.PayeeID">
+                                    @payee.Name - @payee.Phone
+                                </option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="PayeeID" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label">Amount</label>
+                    <input asp-for="Amount" type="number" step="0.01" class="form-control" min="0.01" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        Note: BillPay transactions do not incur service charges
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ScheduleTimeUtc" class="form-label">Schedule Date & Time</label>
+                    <input asp-for="ScheduleTimeUtc" type="datetime-local" class="form-control" 
+                           value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="ScheduleTimeUtc" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        Select when you want this payment to be processed
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Period" class="form-label">Payment Frequency</label>
+                    <select asp-for="Period" class="form-select">
+                        <option value="">-- Select frequency --</option>
+                        <option value="O">One-off Payment</option>
+                        <option value="M">Monthly (Recurring)</option>
+                    </select>
+                    <span asp-validation-for="Period" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        Monthly payments will automatically recur every month
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Schedule Payment</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

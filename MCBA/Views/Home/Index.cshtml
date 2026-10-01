@@ -1,0 +1,61 @@
+﻿@model MCBA.Models.Customer
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Welcome, @Model.Name</h2>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a asp-controller="Deposit" asp-action="Index" class="btn btn-primary">Deposit</a>
+            <a asp-controller="Withdraw" asp-action="Index" class="btn btn-primary">Withdraw</a>
+            <a asp-controller="Transfer" asp-action="Index" class="btn btn-primary">Transfer</a>
+            <a asp-controller="BillPay" asp-action="Index" class="btn btn-primary">Bill Pay</a>
+            <a asp-controller="Statement" asp-action="Index" class="btn btn-info">My Statements</a>
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-secondary">My Profile</a>
+            <a asp-controller="Login" asp-action="Logout" class="btn btn-danger float-end">Logout</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>My Accounts</h4>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Account Type</th>
+                        <th>Balance</th>
+                        <th>Available Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var account in Model.Accounts)
+                    {
+                        var availableBalance = account.AccountType == 'C' 
+                            ? account.Balance + 500 
+                            : account.Balance;
+                        
+                        <tr>
+                            <td>@account.AccountNumber</td>
+                            <td>@(account.AccountType == 'C' ? "Checking" : "Savings")</td>
+                            <td>@account.Balance.ToString("C")</td>
+                            <td>@availableBalance.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

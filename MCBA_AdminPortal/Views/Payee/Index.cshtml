@@ -1,0 +1,92 @@
+@model List<MCBA_AdminPortal.Models.Payee>
+
+@{
+    ViewData["Title"] = "Manage Payees";
+    var postcode = ViewBag.Postcode as string;
+}
+
+<div class="container mt-4">
+    <h2>Manage Payees</h2>
+    <hr />
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Filter by Postcode</h5>
+            <form method="get" asp-action="Index" class="row g-3">
+                <div class="col-auto">
+                    <input type="text" class="form-control" name="postcode" placeholder="Enter postcode" 
+                           value="@postcode" maxlength="4" pattern="\d{4}" />
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+                @if (!string.IsNullOrEmpty(postcode))
+                {
+                    <div class="col-auto">
+                        <a asp-action="Index" class="btn btn-secondary">Clear Filter</a>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Payee List</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Postcode</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payee in Model)
+                            {
+                                <tr>
+                                    <td>@payee.PayeeID</td>
+                                    <td>@payee.Name</td>
+                                    <td>@payee.Address</td>
+                                    <td>@payee.City</td>
+                                    <td>@payee.State</td>
+                                    <td>@payee.Postcode</td>
+                                    <td>@payee.Phone</td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@payee.PayeeID" class="btn btn-sm btn-warning">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">No payees found.</p>
+            }
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>

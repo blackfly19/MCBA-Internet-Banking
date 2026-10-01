@@ -1,0 +1,74 @@
+@model MCBA.ViewModels.ProfileViewModel
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Edit Profile</h2>
+            <hr />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="CustomerID" />
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TFN" class="form-label">TFN (Optional)</label>
+                    <input asp-for="TFN" class="form-control" placeholder="XXX XXX XXX" maxlength="11" />
+                    <span asp-validation-for="TFN" class="text-danger"></span>
+                    <small class="form-text text-muted">Format: XXX XXX XXX</small>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label">Address (Optional)</label>
+                    <input asp-for="Address" class="form-control" maxlength="50" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="City" class="form-label">City (Optional)</label>
+                    <input asp-for="City" class="form-control" maxlength="40" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="State" class="form-label">State (Optional)</label>
+                    <select asp-for="State" class="form-select">
+                        <option value="">-- Select State --</option>
+                        <option value="ACT">ACT</option>
+                        <option value="NSW">NSW</option>
+                        <option value="NT">NT</option>
+                        <option value="QLD">QLD</option>
+                        <option value="SA">SA</option>
+                        <option value="TAS">TAS</option>
+                        <option value="VIC">VIC</option>
+                        <option value="WA">WA</option>
+                    </select>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PostCode" class="form-label">Postcode (Optional)</label>
+                    <input asp-for="PostCode" class="form-control" placeholder="XXXX" maxlength="4" />
+                    <span asp-validation-for="PostCode" class="text-danger"></span>
+                    <small class="form-text text-muted">4 digits</small>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Mobile" class="form-label">Mobile (Optional)</label>
+                    <input asp-for="Mobile" class="form-control" placeholder="04XX XXX XXX" maxlength="12" />
+                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                    <small class="form-text text-muted">Format: 04XX XXX XXX</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Continue</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <h2>Admin Dashboard</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Payees</h5>
+                    <p class="card-text">View all payees, filter by postcode, and modify payee details.</p>
+                    <a asp-controller="Payee" asp-action="Index" class="btn btn-primary">Go to Payees</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage BillPay</h5>
+                    <p class="card-text">View scheduled payments and block/unblock bill payments.</p>
+                    <a asp-controller="BillPay" asp-action="Index" class="btn btn-primary">Go to BillPay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
